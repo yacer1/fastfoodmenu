@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>منيو - مطعم الوجبات السريعة</title>
+  <meta name="description" content="نموذج صفحة منيو لمطعم وجبات سريعة - قابل للتعديل والرفع على GitHub Pages أو Netlify" />
+  <style>
+    :root{--accent:#ff4d4d;--dark:#222;--muted:#666;--bg:#fafafa}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg);color:var(--dark);}
+    a{color:inherit}
+    .container{max-width:1000px;margin:24px auto;padding:20px}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:72px;height:72px;border-radius:12px;background-image:url('https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=');background-size:cover;background-position:center;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+    .brand h1{margin:0;font-size:20px}
+    .brand p{margin:0;color:var(--muted);font-size:14px}
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{display:inline-grid;place-items:center;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;font-weight:600}
+    .btn.secondary{background:transparent;border:1px solid #eee;color:var(--dark);font-weight:600}
+
+    /* Hero */
+    .hero{display:flex;flex-wrap:wrap;gap:18px;background:white;padding:18px;border-radius:14px;margin-top:18px;box-shadow:0 6px 30px rgba(0,0,0,0.04)}
+    .hero-left{flex:1;min-width:260px}
+    .hero-right{width:320px}
+    .hero p{color:var(--muted);margin-top:8px}
+
+    /* Menu */
+    .menu-section{margin-top:18px}
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+    .card{background:white;border-radius:12px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,0.04);display:flex;gap:10px;align-items:center}
+    .card img{width:84px;height:70px;object-fit:cover;border-radius:8px}
+    .card .meta{flex:1}
+    .card h3{margin:0;font-size:16px}
+    .price{font-weight:700;color:var(--accent)}
+    .desc{color:var(--muted);font-size:13px;margin-top:6px}
+
+    /* Categories */
+    .cats{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .chip{background:#fff;padding:8px 10px;border-radius:999px;border:1px solid #eee;font-weight:600}
+
+    /* Map & footer */
+    .mapwrap{margin-top:18px;background:white;padding:10px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.04)}
+    iframe{width:100%;height:260px;border:0;border-radius:10px}
+    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* Responsive */
+    @media (max-width:720px){
+      .hero-right{width:100%}
+      header{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <!--
+    README:
+    - استبدل رقم الواتساب في رابط whatsappPhone بالرقم الحقيقي بدون + أو فراغات (مثال: 213661234567)
+    - استبدل رابط الخريطة (map iframe src) بإحداثيات مطعمك أو رابط Google Maps share
+    - استبدل الصور بنصوص مناسبة أو برابط صور المطعم
+    - يمكن رفع هذا الملف مباشرة كما هو إلى GitHub Pages أو Netlify
+  -->
+
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>مطعم السريع</h1>
+          <p>أفضل برجر وبطاطا في المدينة</p>
+        </div>
+      </div>
+
+      <div class="cta">
+        <a class="btn" id="orderNow" href="#">اطلب الآن عبر واتساب</a>
+        <a class="btn secondary" href="#menu">القائمة</a>
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-left">
+        <h2 id="hero-title">منيو سريع وواضح — كل ما تريد بطلة واحدة</h2>
+        <p>صفحة بسيطة تعرض الأطباق مع الصور والأسعار، وأزرار للطلب المباشر عبر واتساب أو الاتصال والهاتف.</p>
+
+        <div class="cats">
+          <span class="chip">برجر</span>
+          <span class="chip">ساندويتشات</span>
+          <span class="chip">بطاطا</span>
+          <span class="chip">مشروبات</span>
+        </div>
+
+        <div style="margin-top:14px;display:flex;gap:10px">
+          <a class="btn" href="#menu">شاهد المنيو</a>
+          <a class="btn secondary" href="#map">الموقع على الخريطة</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <img src="https://images.unsplash.com/photo-1604908177223-1e0a1dd3f8f6?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="طبق مميز" style="width:100%;border-radius:12px;display:block;box-shadow:0 10px 30px rgba(0,0,0,0.08)" />
+      </div>
+    </section>
+
+    <!-- Menu -->
+    <section id="menu" class="menu-section">
+      <h2>القائمة</h2>
+
+      <div class="menu-grid">
+        <!-- item 1 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="برجر كلاسيك" />
+          <div class="meta">
+            <h3>برجر كلاسيك <span class="price">1200 دج</span></h3>
+            <div class="desc">لحم 180غ، جبن، خس، طماطم، صوص مميز.</div>
+          </div>
+          <div>
+            <a class="btn" href="#" onclick="addToWhats(event,'برجر كلاسيك','1200 دج')">اطلب</a>
+          </div>
+        </article>
+
+        <!-- item 2 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1606756791035-3f6ad9f0f3f3?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="ساندويش دجاج" />
+          <div class="meta">
+            <h3>ساندويتش دجاج <span class="price">900 دج</span></h3>
+            <div class="desc">دجاج متبل، خبز طازج، صوص خاص.</div>
+          </div>
+          <div>
+            <a class="btn" href="#" onclick="addToWhats(event,'ساندويتش دجاج','900 دج')">اطلب</a>
+          </div>
+        </article>
+
+        <!-- item 3 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="بطاطا بالجبن" />
+          <div class="meta">
+            <h3>بطاطا بالجبن <span class="price">700 دج</span></h3>
+            <div class="desc">بطاطا مقرمشة تزيّن بصوص الجبن.</div>
+          </div>
+          <div>
+            <a class="btn" href="#" onclick="addToWhats(event,'بطاطا بالجبن','700 دج')">اطلب</a>
+          </div>
+        </article>
+
+        <!-- item 4 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1544025163-5cc0c8dfd8a0?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="كوكا" />
+          <div class="meta">
+            <h3>مشروب غازي <span class="price">250 دج</span></h3>
+            <div class="desc">كولا أو سفن أب، 330 مل.</div>
+          </div>
+          <div>
+            <a class="btn" href="#" onclick="addToWhats(event,'مشروب غازي','250 دج')">اطلب</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Map -->
+    <section id="map" class="mapwrap">
+      <h2>موقع المطعم</h2>
+      <!--
+        استبدل src في iframe برابط share من Google Maps أو استخدم إحداثيات المطعم
+        مثال src لواحة الجزائر: "https://www.google.com/maps/embed?pb=!1m18!..."
+      -->
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12849.123456789!2d3.05858!3d36.7538!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzZcJzQ1LjAiTiAzxYTCsA!5e0!3m2!1sar!2sdz!4v1600000000000!5m2!1sar!2sdz" allowfullscreen="" loading="lazy"></iframe>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> مطعم السريع — تواصل: <a href="#" id="phoneLink">+213 661 23 45 67</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // ====== قم بتعديل هذا المتغير برقمك (دون + أو مسافات) ======
+    const whatsappPhone = '213661234567'; // مثال: 213661234567
+
+    // كتابة سنة الحالية
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('phoneLink').href = 'tel:+213661234567';
+
+    // زر الطلب العام في الهيدر
+    document.getElementById('orderNow').href = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent('السلام عليكم، اريد الطلب من منيوكم.')}`;
+
+    // دالة لإضافة item مباشرة في رسالة الواتساب
+    function addToWhats(e, itemName, price){
+      e.preventDefault();
+      const text = `السلام عليكم، أريد طلب: ${itemName} - السعر: ${price} \nالكمية: 1 \nالاسم: \nالعنوان: `;
+      const url = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(text)}`;
+      window.open(url,'_blank');
+    }
+  </script>
+</body>
+</html>
