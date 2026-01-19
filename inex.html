@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>مثال على مستند HTML</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    :root{
+      --bg1:#ffd1e8;
+      --bg2:#ff9acb;
+      --accent:#6f2460;
+      --yes:#ff6f91;
+      --no:#ff3b7a;
+    }
+    html,body{height:100%;margin:0}
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.35), transparent 10%),
+                  linear-gradient(135deg,var(--bg1),var(--bg2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .card{
+      width: min(680px, 96%);
+      background: rgba(255,255,255,0.92);
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      backdrop-filter: blur(6px);
+    }
+
+    #question {
+      font-size: 1.6rem;
+      color: var(--accent);
+      margin: 0 0 22px;
+      letter-spacing: .6px;
+      animation: floatText 3.5s ease-in-out infinite;
+    }
+    @keyframes floatText{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+      100%{transform:translateY(0)}
+    }
+
+    .buttons {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    button{
+      min-width: 110px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      transition: transform .18s ease, box-shadow .18s ease, opacity .2s ease, left .32s ease, top .32s ease;
+      position: relative;
+    }
+    button:active{transform:scale(.98)}
+    button:hover{transform:translateY(-6px) scale(1.02)}
+    .yes{ background: linear-gradient(180deg,var(--yes),#c85b86) }
+    .no { background: linear-gradient(180deg,var(--no),#c81f63) }
+
+    .no.animating { animation: dodge .28s ease; }
+    @keyframes dodge {
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-8px) scale(1.03)}
+      100%{transform:translateY(0)}
+    }
+
+    .confetti {
+      position:fixed;
+      width:10px;height:14px;border-radius:2px;
+      opacity:0;
+      will-change:transform,opacity;
+      pointer-events:none;
+      z-index:9999;
+      animation: confPop 900ms forwards;
+    }
+    @keyframes confPop{
+      0%{opacity:1; transform:translateY(0) rotate(0) scale(1)}
+      60%{opacity:1; transform:translateY(-160px) rotate(360deg) scale(1)}
+      100%{opacity:0; transform:translateY(-240px) rotate(720deg) scale(.8)}
+    }
+
+    .heart {
+      position:fixed;
+      left:50%; top:40%;
+      transform:translate(-50%,-50%) scale(0);
+      font-size:56px;
+      pointer-events:none;
+      animation: heartPop 600ms cubic-bezier(.2,.9,.2,1) forwards;
+      z-index:10000;
+    }
+    @keyframes heartPop{
+      0%{transform:translate(-50%,-50%) scale(0)}
+      60%{transform:translate(-50%,-60%) scale(1.2)}
+      100%{transform:translate(-50%,-90%) scale(.9); opacity:0}
+    }
+
+    .note { color:#6a4b3b; font-size:.95rem; margin-top:12px; opacity:.9 }
+
+    button:focus{ outline:3px solid rgba(255,255,255,.18); box-shadow:0 6px 22px rgba(0,0,0,.18) }
+
+    /* responsive tweaks so NO doesn't get pushed outside small viewports */
+    @media (max-width:420px){
+      .card{ padding:20px }
+      button{ min-width:88px; padding:10px 12px }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <p id="question">do you love me</p>
+
+    <!-- Initial GIF (shown by default) -->
+    <div id="initialGifContainer" style="margin-top:18px;">
+      <div class="tenor-gif-embed" data-postid="16286605" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+        <a href="https://tenor.com/view/cute-cat-sweet-please-begging-gif-16286605">Cute Cat Sticker</a>
+        from <a href="https://tenor.com/search/cute-stickers">Cute Stickers</a>
+      </div>
+    </div>
+
+    <div class="buttons" id="btnContainer" aria-hidden="false">
+      <button class="yes" id="yesBtn">yes</button>
+      <button class="no" id="noBtn">no</button>
+    </div>
+
+    <!-- Tenor GIF embed (user requested) - hidden by default, shows on Yes click -->
+    <div id="gifContainer" style="margin-top:18px; display:none;">
+      <div class="tenor-gif-embed" data-postid="2313827382029791821" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+        <a href="https://tenor.com/view/cat-kiss-catkiss-cat-kiss-cat-kissing-gif-2313827382029791821">Cat Kiss GIF</a>
+        from <a href="https://tenor.com/search/cat-gifs">Cat GIFs</a>
+      </div>
+    </div>
+
+    <div class="note">Click "No" to see it dodge around the card. Click "Yes" for a surprise.</div>
+  </div>
+
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const question = document.getElementById('question');
+    const btnContainer = document.getElementById('btnContainer');
+    const card = document.getElementById('card');
+    const gifContainer = document.getElementById('gifContainer');
+    const initialGifContainer = document.getElementById('initialGifContainer');
+
+    let noClickCount = 0;
+    let yesClickCount = 0;
+
+    function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+    function spawnConfetti(count = 20){
+      const colors = ['#ff3b7a','#ffb300','#ff6f91','#ff80ab','#9c27b0','#ff4081'];
+      const r = card.getBoundingClientRect();
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'confetti';
+        el.style.background = colors[i % colors.length];
+        const x = r.left + r.width/2 + randInt(-60,60);
+        const y = r.top + r.height/2 + randInt(-20,20);
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.style.transform = `rotate(${randInt(0,360)}deg)`;
+        el.style.animationDelay = (Math.random()*0.12)+'s';
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), 1100);
+      }
+    }
+
+    function showHeart(){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = '💖';
+      document.body.appendChild(h);
+      setTimeout(()=> h.remove(), 900);
+    }
+
+    function typeText(targetEl, text, speed=30){
+      targetEl.textContent = '';
+      let i=0;
+      const t = setInterval(()=>{
+        if (i < text.length) targetEl.textContent += text[i++];
+        else clearInterval(t);
+      }, speed);
+    }
+
+    // Move NO button around the card in all directions, limited radius (won't go far)
+    function moveNoAroundCard(){
+      const bw = noBtn.offsetWidth;
+      const bh = noBtn.offsetHeight;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const margin = 12;
+
+      const r = card.getBoundingClientRect();
+      const centerX = r.left + r.width / 2;
+      const centerY = r.top + r.height / 2;
+
+      const minRadius = 60;
+      const maxRadius = Math.min(140, Math.floor(Math.min(vw, vh) / 4));
+
+      const angle = Math.random() * Math.PI * 2;
+      const radius = minRadius + Math.random() * (maxRadius - minRadius);
+
+      const offsetX = Math.round(Math.cos(angle) * radius);
+      const offsetY = Math.round(Math.sin(angle) * radius);
+
+      let left = Math.round(centerX + offsetX - bw / 2);
+      let top  = Math.round(centerY + offsetY - bh / 2);
+
+      const maxLeft = vw - bw - margin;
+      const maxTop  = vh - bh - margin;
+      left = Math.min(Math.max(left, margin), maxLeft);
+      top  = Math.min(Math.max(top, margin), maxTop);
+
+      const rect = noBtn.getBoundingClientRect();
+
+      // take out of flow at current coords
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = rect.left + 'px';
+      noBtn.style.top = rect.top + 'px';
+      noBtn.style.width = rect.width + 'px';
+      noBtn.style.transition = 'left .32s cubic-bezier(.2,.9,.2,1), top .32s cubic-bezier(.2,.9,.2,1), transform .18s';
+
+      void noBtn.offsetWidth; // force reflow
+
+      noBtn.style.left = left + 'px';
+      noBtn.style.top = top + 'px';
+
+      setTimeout(()=> { noBtn.style.width = ''; }, 360);
+    }
+
+    noBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if (!document.body.contains(noBtn)) return;
+      noClickCount++;
+
+      noBtn.classList.add('animating');
+      setTimeout(()=> noBtn.classList.remove('animating'), 260);
+
+      moveNoAroundCard();
+
+      if (noClickCount === 2){
+        typeText(question, ' why you hate me like that', 45);
+      } else if (noClickCount === 6){
+        typeText(question, 'fuck you just prees yes', 45);
+      } else {
+        question.animate([{opacity:0.8},{opacity:1}],{duration:220});
+      }
+    });
+
+    yesBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      yesClickCount++;
+
+      if (yesClickCount === 1){
+        typeText(question, 'ty i love you too like my sister', 28);
+        spawnConfetti(28);
+        showHeart();
+        // delete the first GIF and show the kiss GIF
+        if (initialGifContainer && initialGifContainer.parentNode) initialGifContainer.parentNode.removeChild(initialGifContainer);
+        gifContainer.style.display = 'block'; // show the kiss GIF
+        setTimeout(()=> {
+          if (btnContainer && btnContainer.parentNode) btnContainer.parentNode.removeChild(btnContainer);
+        }, 420);
+      } else {
+        typeText(question, 'ooh ok Oh, okay, I thought another thing', 28);
+        spawnConfetti(12);
+      }
+    });
+
+    // keep fixed-positioned no button inside viewport on resize
+    window.addEventListener('resize', () => {
+      if (noBtn && noBtn.style.position === 'fixed') {
+        const rect = noBtn.getBoundingClientRect();
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const bw = noBtn.offsetWidth;
+        const bh = noBtn.offsetHeight;
+        const margin = 8;
+        const maxLeft = Math.max(margin, vw - bw - margin);
+        const maxTop = Math.max(margin, vh - bh - margin);
+
+        let left = rect.left;
+        let top = rect.top;
+        left = Math.min(Math.max(left, margin), maxLeft);
+        top = Math.min(Math.max(top, margin), maxTop);
+
+        noBtn.style.left = left + 'px';
+        noBtn.style.top = top + 'px';
+      }
+    });
+  </script>
+</body>
+</html>
